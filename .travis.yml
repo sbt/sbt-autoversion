@@ -1,0 +1,23 @@
+language: scala
+jdk:
+  - oraclejdk8
+
+script:
+ - sbt ^test ^publishLocal
+ - find $HOME/.sbt -name "*.lock" | xargs rm
+ - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+ - rm -Rf $HOME/.ivy2/cache/scala_2.10/sbt_0.13/org.scala-sbt/sbt-autoversion
+ - rm -Rf $HOME/.ivy2/cache/scala_2.12/sbt_1.0/org.scala-sbt/sbt-autoversion
+
+sudo: false
+
+# Cache settings
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/launchers
+
+# whitelist
+branches:
+  only:
+    - master
