@@ -1,7 +1,8 @@
 // Bintray
-bintrayOrganization := Some("sbt")
-bintrayRepository := "sbt-plugin-releases"
-bintrayPackage := "sbt-release"
+
+publishMavenStyle := false
+bintrayRepository := "sbt-plugins"
+bintrayOrganization in bintray := None
 bintrayReleaseOnPublish := false
 
 // Release
@@ -11,11 +12,10 @@ releaseProcess := Seq[ReleaseStep](
   inquireVersions,
   runClean,
   releaseStepCommandAndRemaining("^ test"),
-  releaseStepCommandAndRemaining("^ scripted"),
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining("^ publishSigned"),
+  releaseStepCommandAndRemaining("^ publish"),
   releaseStepTask(bintrayRelease),
   setNextVersion,
   commitNextVersion,
