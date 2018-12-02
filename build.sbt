@@ -5,8 +5,8 @@ crossSbtVersions := Vector("0.13.18", "1.2.7")
 
 libraryDependencies += "com.vdurmont" % "semver4j" % "2.0.2"
 
-libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.4"  % "test"
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.5"  % "test"
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
 
 // sbt plugin dependencies
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
