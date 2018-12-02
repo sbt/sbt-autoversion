@@ -1,7 +1,7 @@
 organization := "org.scala-sbt"
 
 sbtPlugin := true
-crossSbtVersions := Vector("0.13.16", "1.0.3")
+crossSbtVersions := Vector("0.13.18", "1.2.7")
 
 libraryDependencies += "com.vdurmont" % "semver4j" % "2.0.2"
 
