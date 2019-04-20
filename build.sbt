@@ -10,7 +10,7 @@ libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
 
 // sbt plugin dependencies
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
-addSbtPlugin("com.typesafe.sbt"  % "sbt-git"     % "0.9.3")
+addSbtPlugin("com.typesafe.sbt"  % "sbt-git"     % "1.0.0")
 
 scalacOptions := Seq(
   "-encoding",
