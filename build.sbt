@@ -3,9 +3,9 @@ organization := "com.github.sbt"
 sbtPlugin := true
 crossSbtVersions := Vector("0.13.18", "1.2.7")
 
-libraryDependencies += "com.vdurmont" % "semver4j" % "2.0.2"
+libraryDependencies += "com.vdurmont" % "semver4j" % "2.2.0"
 
-libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.5"  % "test"
+libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.7"  % "test"
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
 
 // sbt plugin dependencies

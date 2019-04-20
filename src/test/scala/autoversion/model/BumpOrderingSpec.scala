@@ -4,10 +4,10 @@ import autoversion.model.BumpOrdering.bumpOrdering
 
 import org.scalacheck.Gen
 import org.scalatest.{FlatSpec, Matchers}
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import sbtrelease.Version.Bump
 
-class BumpOrderingSpec extends FlatSpec with Matchers with GeneratorDrivenPropertyChecks {
+class BumpOrderingSpec extends FlatSpec with Matchers with ScalaCheckDrivenPropertyChecks {
   override implicit val generatorDrivenConfig = PropertyCheckConfiguration(minSuccessful = 30)
 
   private val bumpGen: Gen[Bump] = Gen.oneOf(Bump.Major, Bump.Minor, Bump.Bugfix)
