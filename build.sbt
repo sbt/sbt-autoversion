@@ -1,4 +1,4 @@
-organization := "org.scala-sbt"
+organization := "com.github.sbt"
 
 sbtPlugin := true
 crossSbtVersions := Vector("0.13.18", "1.2.7")
