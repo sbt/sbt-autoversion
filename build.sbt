@@ -9,7 +9,7 @@ libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.7"  % "test"
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % "test"
 
 // sbt plugin dependencies
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 addSbtPlugin("com.typesafe.sbt"  % "sbt-git"     % "1.0.0")
 
 scalacOptions := Seq(
