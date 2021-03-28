@@ -1,6 +1,7 @@
 organization := "com.github.sbt"
 
-sbtPlugin := true
+enablePlugins(SbtPlugin)
+
 crossSbtVersions := Vector("0.13.18", "1.2.7")
 
 libraryDependencies += "com.vdurmont" % "semver4j" % "3.1.0"
@@ -9,7 +10,7 @@ libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.9"  % "test"
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.3" % "test"
 
 // sbt plugin dependencies
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.6")
+addSbtPlugin("com.github.sbt" % "sbt-release" % "1.0.15")
 addSbtPlugin("com.typesafe.sbt"  % "sbt-git"     % "1.0.0")
 
 scalacOptions := Seq(
@@ -22,3 +23,6 @@ scalacOptions := Seq(
 )
 
 licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+
+scriptedBufferLog := false
+scriptedLaunchOpts ++= Seq("-Xmx1024M", "-server", "-Dplugin.version=" + version.value)
