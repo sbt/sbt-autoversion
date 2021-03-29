@@ -12,8 +12,7 @@ Add the following line to your `project/plugins.sbt`:
 addSbtPlugin("org.scala-sbt" % "sbt-autoversion" % "1.0.0")
 ```
 
-Since `sbt-autoversion` is an AutoPlugin, it will be automatically available to your projects,
-given you're including both the [sbt-release](https://github.com/sbt/sbt-release) and [sbt-git](https://github.com/sbt/sbt-git) plugins.
+Since `sbt-autoversion` is an `AutoPlugin`, it will be automatically available to your projects.
 
 ## Usage
 
@@ -21,17 +20,17 @@ given you're including both the [sbt-release](https://github.com/sbt/sbt-release
 
 `sbt-autoversion` however expose a few interesting tasks:
 
-* `latestTag`: fetches the latest Git tag, based on Semantic Versioning ordering
-* `unreleasedCommits`: lists commits since the latest tag/release
-* `suggestedBump`: shows what version bump the plugin has computed and would automatically apply on the next release.
+* `autoVersionLatestTag`: fetches the latest Git tag, based on Semantic Versioning ordering
+* `autoVersionUnreleasedCommits`: lists commits since the latest tag/release
+* `autoVersionSuggestedBump`: shows what version bump the plugin has computed and would automatically apply on the next release.
 
 ## Settings
 
-#### `tagNameCleaner`
+#### `autoVersionTagNameCleaner`
 
 Linked to sbt-release's `releaseTagName` setting, defines how to "clean up" a Git tag to get back a semver-compatible version.
 
-#### `majorRegexes`, `minorRegexes`, `bugfixRegexes`
+#### `autoVersionMajorRegexes`, `autoVersionMinorRegexes`, `autoVersionBugfixRegexes`
 
 The list of regular expression that a commit message should match to be seen as requiring respectively a major, a minor, or a bugfix version bump.
 
@@ -42,9 +41,9 @@ Default patterns:
 * bugfix: `\[?bugfix\]?.*`, `\[?fix\]?.*`
 
 Note: regular expressions are executed in the order shown above (major, minor, then bugfix) and the first match is returned.
-See `defaultBump` for behavior if no matches are found in the unreleased commit messages.
+See `autoVersionDefaultBump` for behavior if no matches are found in the unreleased commit messages.
 
-#### `defaultBump`
+#### `autoVersionDefaultBump`
 
 If the plugin is unable to suggest a version bump based on commit messages (i.e., if none of the configured regular expressions match), this version bump will be suggested instead.
 If set to `None`, an error will be thrown, and the release will be aborted.

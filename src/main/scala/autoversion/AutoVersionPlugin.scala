@@ -23,25 +23,25 @@ object AutoVersionPlugin extends AutoPlugin {
   override def requires: Plugins = GitPlugin && ReleasePlugin
 
   override def projectSettings: Seq[Setting[_]] = Seq(
-    tagNameCleaner := { _.stripPrefix("v") },
-    bugfixRegexes := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
-    minorRegexes := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
-    majorRegexes := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
-    latestTag := findLatestTag.value,
-    unreleasedCommits := listUnreleasedCommits.value,
-    suggestedBump := suggestBump.value,
-    releaseVersion := AutoVersion.setReleaseVersion(suggestedBump.value),
-    defaultBump := Some(Bump.Bugfix)
+    autoVersionTagNameCleaner := { _.stripPrefix("v") },
+    autoVersionBugfixRegexes := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
+    autoVersionMinorRegexes := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
+    autoVersionMajorRegexes := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
+    autoVersionLatestTag := findLatestTag.value,
+    autoVersionUnreleasedCommits := listUnreleasedCommits.value,
+    autoVersionSuggestedBump := suggestBump.value,
+    releaseVersion := AutoVersion.setReleaseVersion(autoVersionSuggestedBump.value),
+    autoVersionDefaultBump := Some(Bump.Bugfix)
   )
 
   private lazy val findLatestTag = Def.task {
     val gitTags = runGit("tag", "--list").value
-    val versions = gitTags.map(tag => Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE)))
+    val versions = gitTags.map(tag => Tag(tag, new Semver(autoVersionTagNameCleaner.value(tag), SemverType.LOOSE)))
     versions.sortBy(_.version).lastOption
   }
 
   private lazy val listUnreleasedCommits = Def.taskDyn {
-    val tag = latestTag.value.map(tag => s"${tag.raw}...").getOrElse("")
+    val tag = autoVersionLatestTag.value.map(tag => s"${tag.raw}...").getOrElse("")
     Def.task {
       val commitListOutput = runGit("log", "--oneline", "--no-decorate", "--color=never", s"${tag}HEAD").value
       commitListOutput.map(Commit.apply).toVector
@@ -50,10 +50,10 @@ object AutoVersionPlugin extends AutoPlugin {
 
   private lazy val suggestBump = Def.task {
     val log = sbt.Keys.streams.value.log
-    val default = defaultBump.value
+    val default = autoVersionDefaultBump.value
     val suggestedBumps = {
-      val commits = unreleasedCommits.value
-      commits.flatMap(_.suggestedBump(majorRegexes.value, minorRegexes.value, bugfixRegexes.value))
+      val commits = autoVersionUnreleasedCommits.value
+      commits.flatMap(_.suggestedBump(autoVersionMajorRegexes.value, autoVersionMinorRegexes.value, autoVersionBugfixRegexes.value))
     }
 
     if (suggestedBumps.nonEmpty) suggestedBumps.max
