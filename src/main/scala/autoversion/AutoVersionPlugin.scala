@@ -1,7 +1,7 @@
 package autoversion
 
 import autoversion.model.BumpOrdering.bumpOrdering
-import autoversion.model.{Commit, Tag}
+import autoversion.model.{Commit, ConventionalCommit, Tag}
 import com.typesafe.sbt.{GitPlugin, SbtGit}
 import com.vdurmont.semver4j.Semver
 import com.vdurmont.semver4j.Semver.SemverType
@@ -23,15 +23,18 @@ object AutoVersionPlugin extends AutoPlugin {
   override def requires: Plugins = GitPlugin && ReleasePlugin
 
   override def projectSettings: Seq[Setting[_]] = Seq(
-    autoVersionTagNameCleaner := { _.stripPrefix("v") },
-    autoVersionBugfixRegexes := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
-    autoVersionMinorRegexes := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
-    autoVersionMajorRegexes := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
     autoVersionLatestTag := findLatestTag.value,
+    autoVersionTagNameCleaner := { _.stripPrefix("v") },
     autoVersionUnreleasedCommits := listUnreleasedCommits.value,
     autoVersionSuggestedBump := suggestBump.value,
-    releaseVersion := AutoVersion.setReleaseVersion(autoVersionSuggestedBump.value),
-    autoVersionDefaultBump := Some(Bump.Bugfix)
+    autoVersionCommitConvention := {
+      case "major" | "breaking" => Some(Bump.Major)
+      case "minor" | "feat" | "feature" => Some(Bump.Minor)
+      case "fix" | "bugfix" | "patch" => Some(Bump.Bugfix)
+      case _ => None
+    },
+    autoVersionDefaultBump := Some(Bump.Bugfix),
+    releaseVersion := AutoVersion.setReleaseVersion(autoVersionSuggestedBump.value)
   )
 
   private lazy val findLatestTag = Def.task {
@@ -51,17 +54,23 @@ object AutoVersionPlugin extends AutoPlugin {
   private lazy val suggestBump = Def.task {
     val log = sbt.Keys.streams.value.log
     val default = autoVersionDefaultBump.value
+
     val suggestedBumps = {
       val commits = autoVersionUnreleasedCommits.value
-      commits.flatMap(_.suggestedBump(autoVersionMajorRegexes.value, autoVersionMinorRegexes.value, autoVersionBugfixRegexes.value))
+      commits
+        .flatMap(commit => ConventionalCommit.parse(commit.msg))
+        .flatMap { commit =>
+          if (commit.breaking) Some(Bump.Major)
+          else autoVersionCommitConvention.value(commit.kind)
+        }
     }
 
     if (suggestedBumps.nonEmpty) suggestedBumps.max
     else default match {
-      case None => sys.error("No commit matches either patterns for bugfix, minor or major bumps !")
+      case None => sys.error("Could not identify any commits that adhere to configured sbt-autoversion convention!")
       case Some(bump) =>
         log.warn(
-          "Unreleased commits did not match any configured sbt-autoversion regular expression. " +
+          "Unreleased commits did not adhere to configured sbt-autoversion convention. " +
             s"Defaulting to '${bump.toString}'."
         )
         bump
