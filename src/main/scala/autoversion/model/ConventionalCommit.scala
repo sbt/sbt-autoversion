@@ -15,7 +15,7 @@ object ConventionalCommit {
     val regex = pattern.r("kind", "outerscope", "scope", "breaking", "description")
 
     regex.findFirstMatchIn(message).flatMap { m =>
-      val breaking = Option(m.group("breaking")).isDefined || message.contains("BREAKING CHANGE")
+      val breaking = Option(m.group("breaking")).isDefined || isBreaking(message)
 
       for {
         kind <- Option(m.group("kind"))
@@ -27,6 +27,11 @@ object ConventionalCommit {
         description = Option(m.group("description")).map(_.trim)
       )
     }
+  }
+
+  private def isBreaking(message: String): Boolean = {
+    val breakingPattern = """.*BREAKING[\s-]*CHANGE.*"""
+    message.matches(breakingPattern)
   }
 
 }

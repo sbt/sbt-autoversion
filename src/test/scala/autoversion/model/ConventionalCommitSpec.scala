@@ -59,5 +59,13 @@ class ConventionalCommitSpec extends FreeSpec with Matchers with OptionValues {
       commit.scope shouldBe empty
       commit.description.value shouldEqual "introduce a BREAKING CHANGE"
     }
+
+    "with BREAKING-CHANGE in body" in {
+      val commit = ConventionalCommit.parse("docs: introduce a BREAKING-CHANGE").value
+      commit.kind shouldEqual "docs"
+      commit.breaking shouldBe true
+      commit.scope shouldBe empty
+      commit.description.value shouldEqual "introduce a BREAKING-CHANGE"
+    }
   }
 }
