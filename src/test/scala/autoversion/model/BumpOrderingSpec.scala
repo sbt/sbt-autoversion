@@ -15,25 +15,22 @@ class BumpOrderingSpec extends FlatSpec with Matchers with ScalaCheckDrivenPrope
 
   it should "always prioritize a major bump" in {
     forAll(bumpListGen) { bumps =>
-      if (bumps.contains(Bump.Major)) {
+      if (bumps.contains(Bump.Major))
         bumps.max shouldBe Bump.Major
-      }
     }
   }
 
   it should "prioritize a minor bump if there is no major bump" in {
     forAll(bumpListGen) { bumps =>
-      if (!bumps.contains(Bump.Major) && bumps.contains(Bump.Minor)) {
+      if (!bumps.contains(Bump.Major) && bumps.contains(Bump.Minor))
         bumps.max shouldBe Bump.Minor
-      }
     }
   }
 
   it should "prioritize a bugfix bump if there is no other kinds of bump" in {
     forAll(bumpListGen) { bumps =>
-      if (bumps.forall(_ == Bump.Bugfix)) {
+      if (bumps.forall(_ == Bump.Bugfix))
         bumps.max shouldBe Bump.Bugfix
-      }
     }
   }
 }

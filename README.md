@@ -33,13 +33,23 @@ Linked to sbt-release's `releaseTagName` setting, defines how to "clean up" a Gi
 
 #### `majorRegexes`, `minorRegexes`, `bugfixRegexes`
 
-The list of regular expression that a commit message should match to be seen as requiring respectively a major, a minor or a bugfix version bump (must match at least one pattern).
+The list of regular expression that a commit message should match to be seen as requiring respectively a major, a minor, or a bugfix version bump.
 
 Default patterns:
 
-* major: `\[?breaking\]?.*` `\[?major\]?.*`
-* minor: `.*`
+* major: `\[?breaking\]?.*`, `\[?major\]?.*`
+* minor: `\[?feature\]?.*`, `\[?minor\]?.*`
 * bugfix: `\[?bugfix\]?.*`, `\[?fix\]?.*`
+
+Note: regular expressions are executed in the order shown above (major, minor, then bugfix) and the first match is returned.
+See `defaultBump` for behavior if no matches are found in the unreleased commit messages.
+
+#### `defaultBump`
+
+If the plugin is unable to suggest a version bump based on commit messages (i.e., if none of the configured regular expressions match), this version bump will be suggested instead.
+If set to `None`, an error will be thrown, and the release will be aborted.
+
+Set to `Some(Bump.Bugfix)` by default.
 
 # License
 
