@@ -1,8 +1,4 @@
-organization := "com.github.sbt"
-
 enablePlugins(SbtPlugin)
-
-crossSbtVersions := Vector("0.13.18", "1.2.7")
 
 libraryDependencies += "com.vdurmont" % "semver4j" % "3.1.0"
 
