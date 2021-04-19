@@ -1,23 +1,15 @@
-// Bintray
-
-publishMavenStyle := false
-bintrayRepository := "sbt-plugins"
-bintrayOrganization in bintray := None
-bintrayReleaseOnPublish := false
-
-// Release
-import ReleaseTransformations._
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  runClean,
-  releaseStepCommandAndRemaining("^ test"),
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  releaseStepCommandAndRemaining("^ publish"),
-  releaseStepTask(bintrayRelease),
-  setNextVersion,
-  commitNextVersion,
-  pushChanges
+inThisBuild(
+  List(
+    organization := "me.pdalpra",
+    homepage := Some(url("https://github.com/sbt/sbt-autoversion")),
+    licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+    developers := List(
+      Developer(
+        "pdalpra",
+        "Pierre Dal-Pra",
+        "dalpra.pierre@gmail.com",
+        url("https://github.com/pdalpra")
+      )
+    )
+  )
 )

@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: olafurpg/setup-scala@v10
+        with:
+          java-version: openjdk@1.14
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.OS }}-coursier-cache-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
+          path: |
+            ~/.cache/coursier
+            ~/.sbt
+          restore-keys: |
+            ${{ runner.OS }}-coursier-cache-${{ matrix.scala }}-${{ hashFiles('**/*.sbt') }}
+            ${{ runner.OS }}-coursier-cache-${{ matrix.scala }}-
+            ${{ runner.OS }}-coursier-cache-
+      - name: CI pipeline
+        run: sbt scalafmtCheckAll test scripted
