@@ -9,7 +9,7 @@ The `sbt-autoversion` plugin builds on the [sbt-release](https://github.com/sbt/
 Add the following line to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("org.scala-sbt" % "sbt-autoversion" % "1.0.0")
+addSbtPlugin("me.pdalpra" % "sbt-autoversion" % "2.0.0")
 ```
 
 Since `sbt-autoversion` is an AutoPlugin, it will be automatically available to your projects,
