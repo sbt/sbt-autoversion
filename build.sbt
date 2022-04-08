@@ -3,7 +3,7 @@ enablePlugins(SbtPlugin)
 libraryDependencies += "com.vdurmont" % "semver4j" % "3.1.0"
 
 libraryDependencies += "org.scalatest"  %% "scalatest"  % "3.0.9"  % "test"
-libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.15.4" % "test"
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.16.0" % "test"
 
 // sbt plugin dependencies
 addSbtPlugin("com.github.sbt"   % "sbt-release" % "1.0.15")
