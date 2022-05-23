@@ -25,9 +25,9 @@ object AutoVersionPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] =
     Seq(
       tagNameCleaner := { _.stripPrefix("v") },
-      bugfixRegexes := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
-      minorRegexes := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
-      majorRegexes := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
+      bugfixRegexes := List("""(?s)\[?(bug)?fix\]?.*""", """(?s)\[?patch\]?.*""").map(_.r),
+      minorRegexes := List("""(?s)\[?feature\]?.*""", """(?s)\[?minor\]?.*""").map(_.r),
+      majorRegexes := List("""(?s)\[?breaking\]?.*""", """(?s)\[?major\]?.*""").map(_.r),
       latestTag := findLatestTag.value,
       unreleasedCommits := listUnreleasedCommits.value,
       suggestedBump := suggestBump.value,
@@ -36,7 +36,7 @@ object AutoVersionPlugin extends AutoPlugin {
     )
 
   private lazy val findLatestTag = Def.task {
-    val gitTags  = runGit("tag", "--list").value
+    val gitTags  = runGit(Properties.lineSeparator, "tag", "--list").value
     val versions = gitTags.map(tag => Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE)))
     versions.sortBy(_.version).lastOption
   }
@@ -44,7 +44,23 @@ object AutoVersionPlugin extends AutoPlugin {
   private lazy val listUnreleasedCommits = Def.taskDyn {
     val tag = latestTag.value.map(tag => s"${tag.raw}...").getOrElse("")
     Def.task {
-      val commitListOutput = runGit("log", "--oneline", "--no-decorate", "--color=never", s"${tag}HEAD").value
+      val commitListOutput =
+        runGit(Properties.lineSeparator, "log", "--oneline", "--no-decorate", "--color=never", s"${tag}HEAD").value
+      commitListOutput.map(Commit.apply).toVector
+    }
+  }
+
+  lazy val listUnreleasedCommitsLong = Def.taskDyn {
+    val tag = latestTag.value.map(tag => s"${tag.raw}...").getOrElse("")
+    Def.task {
+      val commitListOutput = runGit(
+        "--DELIMITER--",
+        "log",
+        "--pretty=\"format:%B--DELIMITER--\"",
+        "--no-decorate",
+        "--color=never",
+        s"${tag}HEAD"
+      ).value
       commitListOutput.map(Commit.apply).toVector
     }
   }
@@ -71,11 +87,11 @@ object AutoVersionPlugin extends AutoPlugin {
       }
   }
 
-  private def runGit(args: String*) =
+  private def runGit(splitAt: String, args: String*) =
     Def.task {
       SbtGit.GitKeys.gitRunner
         .value(args: _*)(file("."), Logger.Null)
-        .split(Properties.lineSeparator)
+        .split(splitAt)
         .filter(_.trim.nonEmpty)
     }
 }

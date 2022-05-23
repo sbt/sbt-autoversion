@@ -51,6 +51,12 @@ If set to `None`, an error will be thrown, and the release will be aborted.
 
 Set to `Some(Bump.Bugfix)` by default.
 
+#### `unreleasedCommits`
+
+By default, `git log --oneline` is used to list the unreleased commits and match them against the regexes. If you need
+the full commit text (e.g. to search for scala-steward semver labels), you can use
+* `unreleasedCommits := AutoVersionPlugin.listUnreleasedCommitsLong.value`
+
 # License
 
 This software is under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
