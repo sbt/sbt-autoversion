@@ -1,11 +1,10 @@
 package autoversion
 
+import org.scalatest.{FlatSpec, Matchers}
 import sbtrelease.Version.Bump
 import sbtrelease.{versionFormatError, Version}
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should.Matchers
 
-class AutoVersionSpec extends AnyFlatSpec with Matchers {
+class AutoVersionSpec extends FlatSpec with Matchers {
 
   private def autoVersion(raw: String, bump: Bump): String = {
     val version = Version(raw).getOrElse(versionFormatError(raw))
