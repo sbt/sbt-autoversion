@@ -24,15 +24,15 @@ object AutoVersionPlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] =
     Seq(
-      tagNameCleaner := { _.stripPrefix("v") },
-      bugfixRegexes := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
-      minorRegexes := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
-      majorRegexes := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
-      latestTag := findLatestTag.value,
+      tagNameCleaner    := { _.stripPrefix("v") },
+      bugfixRegexes     := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
+      minorRegexes      := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
+      majorRegexes      := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
+      latestTag         := findLatestTag.value,
       unreleasedCommits := listUnreleasedCommits.value,
-      suggestedBump := suggestBump.value,
-      releaseVersion := AutoVersion.setReleaseVersion(suggestedBump.value),
-      defaultBump := Some(Bump.Bugfix)
+      suggestedBump     := suggestBump.value,
+      releaseVersion    := AutoVersion.setReleaseVersion(suggestedBump.value),
+      defaultBump       := Some(Bump.Bugfix)
     )
 
   private lazy val findLatestTag = Def.task {
