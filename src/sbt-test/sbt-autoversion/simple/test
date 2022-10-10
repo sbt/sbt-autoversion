@@ -95,3 +95,21 @@ $ exec git commit --allow-empty -m 'doing hard work'
 > reload
 > release with-defaults
 $ exec grep -Fq '"2.0.2-SNAPSHOT"' version.sbt
+
+# Reachable latestTag cases
+# create some unreleased commits on master
+$ exec git commit --allow-empty -m '[feat]: new features'
+$ exec git commit --allow-empty -m '[breaking]: breaking new features for better features'
+
+# Create release/maintenance branch 0.2.x
+$ exec git branch 0.2.x v0.2.0
+# 0.2.1-SNAPSHOT => 0.2.1 => 0.2.2-SNAPSHOT
+$ exec git checkout 0.2.x
+$ exec git tag release3-tag -a -m "Tag marking v0.2.0 as release 3"
+$ exec git commit --allow-empty -m 'doing more work'
+$ exec git tag different-tag -a -m "some intermediate tag"
+$ exec git commit --allow-empty -m '[fix]: fixing bugs'
+$ exec grep -Fq '"0.2.0"' version.sbt
+> reload
+> release with-defaults
+$ exec grep -Fq '"0.2.2-SNAPSHOT"' version.sbt

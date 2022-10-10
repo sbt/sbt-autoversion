@@ -36,9 +36,14 @@ object AutoVersionPlugin extends AutoPlugin {
     )
 
   private lazy val findLatestTag = Def.task {
-    val gitTags  = runGit("tag", "--list").value
-    val versions = gitTags.map(tag => Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE)))
-    versions.sortBy(_.version).lastOption
+    // uses git describe to find the closest reachable tag belonging to the tree of current HEAD with a prefix of 'v'
+    runGit("describe", "--abbrev=0", "--always", "--match=v*")
+      .value
+      .filter(_.startsWith("v"))
+      .map(tag => {
+        Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE))
+      })
+      .headOption
   }
 
   private lazy val listUnreleasedCommits = Def.taskDyn {
