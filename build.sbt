@@ -2,7 +2,7 @@ enablePlugins(SbtPlugin)
 
 libraryDependencies ++= Seq(
   "com.vdurmont"       % "semver4j"        % "3.1.0",
-  "org.scalatest"     %% "scalatest"       % "3.2.13"   % Test,
+  "org.scalatest"     %% "scalatest"       % "3.2.14"   % Test,
   "org.scalacheck"    %% "scalacheck"      % "1.17.0"   % Test,
   "org.scalatestplus" %% "scalacheck-1-16" % "3.2.14.0" % Test
 )
