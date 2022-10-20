@@ -2,10 +2,10 @@ package autoversion
 
 import autoversion.model.BumpOrdering.bumpOrdering
 import autoversion.model.{Commit, Tag}
-import com.typesafe.sbt.{GitPlugin, SbtGit}
+import com.github.sbt.git.{GitPlugin, SbtGit}
 import com.vdurmont.semver4j.Semver
 import com.vdurmont.semver4j.Semver.SemverType
-import sbt._
+import sbt.*
 import sbtrelease.ReleasePlugin
 import sbtrelease.ReleasePlugin.autoImport.releaseVersion
 import sbtrelease.Version.Bump
@@ -16,7 +16,7 @@ object AutoVersionPlugin extends AutoPlugin {
 
   val autoImport = Keys
 
-  import autoImport._
+  import autoImport.*
 
   override def trigger: PluginTrigger = allRequirements
 

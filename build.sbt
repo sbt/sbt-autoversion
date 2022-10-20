@@ -9,8 +9,8 @@ libraryDependencies ++= Seq(
 
 // sbt plugin dependencies
 
-addSbtPlugin("com.github.sbt"   % "sbt-release" % "1.1.0")
-addSbtPlugin("com.typesafe.sbt" % "sbt-git"     % "1.0.2")
+addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
+addSbtPlugin("com.github.sbt" % "sbt-git"     % "2.0.0")
 
 scalacOptions := Seq(
   "-encoding",
