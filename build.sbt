@@ -20,3 +20,6 @@ scalacOptions := Seq(
   "-unchecked",
   "-Xfuture"
 )
+
+scriptedBufferLog := false
+scriptedLaunchOpts ++= Seq("-Xmx1024M", "-server", "-Dplugin.version=" + version.value)
