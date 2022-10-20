@@ -1,5 +1,6 @@
 inThisBuild(
   Seq(
+    githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("test", "scripted"))),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),
     githubWorkflowPublish := Seq(
