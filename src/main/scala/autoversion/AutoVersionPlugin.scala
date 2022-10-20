@@ -37,12 +37,9 @@ object AutoVersionPlugin extends AutoPlugin {
 
   private lazy val findLatestTag = Def.task {
     // uses git describe to find the closest reachable tag belonging to the tree of current HEAD with a prefix of 'v'
-    runGit("describe", "--abbrev=0", "--always", "--match=v*")
-      .value
+    runGit("describe", "--abbrev=0", "--always", "--match=v*").value
       .filter(_.startsWith("v"))
-      .map(tag => {
-        Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE))
-      })
+      .map(tag => Tag(tag, new Semver(tagNameCleaner.value(tag), SemverType.LOOSE)))
       .headOption
   }
 
