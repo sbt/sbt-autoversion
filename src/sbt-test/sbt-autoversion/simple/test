@@ -84,17 +84,24 @@ $ exec git commit --allow-empty -m 'minor: foobar'
 > release with-defaults
 $ exec grep -Fq '"1.2.1-SNAPSHOT"' version.sbt
 
-# 1.2.1-SNAPSHOT => 2.0.0 => 2.0.1-SNAPSHOT
+# 1.2.1-SNAPSHOT => 1.2.1.1 => 1.2.1.2-SNAPSHOT
+$ exec git commit --allow-empty -m 'nano: foobar'
+> reload
+> release with-defaults
+$ exec grep -Fq '"1.2.1.2-SNAPSHOT"' version.sbt
+
+# 1.2.1.1-SNAPSHOT => 2.0.0.0 => 2.0.0.1-SNAPSHOT
 $ exec git commit --allow-empty -m '[breaking]: foobar'
 > reload
 > release with-defaults
-$ exec grep -Fq '"2.0.1-SNAPSHOT"' version.sbt
+$ exec grep -Fq '"2.0.0.1-SNAPSHOT"' version.sbt
 
-# 2.0.1-SNAPSHOT => 2.0.1 => 2.0.2-SNAPSHOT
+# using default bump of Bugfix
+# 2.0.0.1-SNAPSHOT => 2.0.1.0 => 2.0.1.1-SNAPSHOT
 $ exec git commit --allow-empty -m 'doing hard work'
 > reload
 > release with-defaults
-$ exec grep -Fq '"2.0.2-SNAPSHOT"' version.sbt
+$ exec grep -Fq '"2.0.1.1-SNAPSHOT"' version.sbt
 
 # Reachable latestTag cases
 # create some unreleased commits on master

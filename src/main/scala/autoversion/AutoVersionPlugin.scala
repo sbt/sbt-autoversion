@@ -25,6 +25,7 @@ object AutoVersionPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] =
     Seq(
       tagNameCleaner    := { _.stripPrefix("v") },
+      nanoRegexes       := List("""\[?nano\]?.*""").map(_.r),
       bugfixRegexes     := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
       minorRegexes      := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
       majorRegexes      := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
@@ -56,14 +57,14 @@ object AutoVersionPlugin extends AutoPlugin {
     val default = defaultBump.value
     val suggestedBumps = {
       val commits = unreleasedCommits.value
-      commits.flatMap(_.suggestedBump(majorRegexes.value, minorRegexes.value, bugfixRegexes.value))
+      commits.flatMap(_.suggestedBump(majorRegexes.value, minorRegexes.value, bugfixRegexes.value, nanoRegexes.value))
     }
 
     if (suggestedBumps.nonEmpty) suggestedBumps.max
     else
       default match {
         case None =>
-          throw new RuntimeException("No commit matches either patterns for bugfix, minor or major bumps !")
+          throw new RuntimeException("No commit matches either patterns for bugfix, nano, minor or major bumps !")
         case Some(bump) =>
           log.warn(
             "Unreleased commits did not match any configured sbt-autoversion regular expression. " +

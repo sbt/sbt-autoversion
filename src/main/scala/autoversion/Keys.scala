@@ -11,6 +11,7 @@ object Keys {
   val tagNameCleaner    = settingKey[String => String]("Cleans the git tag to extract only the version.")
   val unreleasedCommits = taskKey[Seq[Commit]]("Commits since the latest tagged release.")
   val suggestedBump     = taskKey[Bump]("Version bump computed by sbt-autoversion")
+  val nanoRegexes       = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a nano bump.")
   val bugfixRegexes     = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a bugfix bump.")
   val minorRegexes      = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a minor bump.")
   val majorRegexes      = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a major bump.")
