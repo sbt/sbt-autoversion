@@ -11,19 +11,16 @@ object Commit {
   }
 }
 case class Commit(sha: String, msg: String) {
-  def suggestedBump(majorRegexes: Seq[Regex], minorRegexes: Seq[Regex], bugfixRegexes: Seq[Regex]): Option[Bump] = {
-    val majorSuggested = majorRegexes.exists(r => matches(r, msg))
-    if (majorSuggested) Some(Bump.Major)
-    else {
-      val minorSuggested = minorRegexes.exists(r => matches(r, msg))
-      if (minorSuggested) Some(Bump.Minor)
-      else {
-        val bugfixSuggested = bugfixRegexes.exists(r => matches(r, msg))
-        if (bugfixSuggested) Some(Bump.Bugfix)
-        else None
+  def suggestedBump(
+      majorRegexes: Seq[Regex],
+      minorRegexes: Seq[Regex],
+      bugfixRegexes: Seq[Regex],
+      nanoRegexes: Seq[Regex]
+  ): Option[Bump] =
+    Seq((majorRegexes, Bump.Major), (minorRegexes, Bump.Minor), (bugfixRegexes, Bump.Bugfix), (nanoRegexes, Bump.Nano))
+      .collectFirst {
+        case (regexes, bump) if regexes.exists(r => matches(r, msg)) => bump
       }
-    }
-  }
 
   private def matches(regex: Regex, s: String): Boolean =
     regex.pattern.matcher(s).matches

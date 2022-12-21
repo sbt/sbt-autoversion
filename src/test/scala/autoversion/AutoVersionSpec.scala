@@ -28,6 +28,10 @@ class AutoVersionSpec extends AnyFlatSpec with Matchers {
 
   private val unqualifiedRelease = "3.9.18"
 
+  "A nano bump on a qualified version" should "proceed to next nano" in {
+    autoVersion(unqualifiedRelease, Bump.Nano) shouldEqual "3.9.18.1"
+  }
+
   "A patch bump on an unqualified version" should "proceed to next patch" in {
     autoVersion(unqualifiedRelease, Bump.Bugfix) shouldEqual "3.9.19"
   }
@@ -42,8 +46,20 @@ class AutoVersionSpec extends AnyFlatSpec with Matchers {
 
   private val overlyPreciseVersion = "3.9.18.4.12"
 
+  "A nano bump on an overly precise version" should "proceed to next nano" in {
+    autoVersion(overlyPreciseVersion, Bump.Nano) shouldEqual "3.9.18.5.0"
+  }
+
   "A patch bump on an overly precise version" should "proceed to next patch" in {
     autoVersion(overlyPreciseVersion, Bump.Bugfix) shouldEqual "3.9.19.0.0"
+  }
+
+  "A patch bump on an overly precise SNAPSHOT version" should "proceed to next patch" in {
+    autoVersion("2.0.0.2-SNAPSHOT", Bump.Bugfix) shouldEqual "2.0.1.0"
+  }
+
+  "A nano bump on an overly precise SNAPSHOT version" should "proceed to next nano" in {
+    autoVersion("2.0.0.2-SNAPSHOT", Bump.Nano) shouldEqual "2.0.0.2"
   }
 
   "A minor bump on an overly precise version" should "proceed to next minor" in {
@@ -52,5 +68,19 @@ class AutoVersionSpec extends AnyFlatSpec with Matchers {
 
   "A major bump on an overly precise version" should "proceed to next major" in {
     autoVersion(overlyPreciseVersion, Bump.Major) shouldEqual "4.0.0.0.0"
+  }
+
+  private val emptyInitialVersion = "0.0.0"
+
+  "A patch bump on an empty version" should "proceed to next patch" in {
+    autoVersion(emptyInitialVersion, Bump.Bugfix) shouldEqual "0.0.1"
+  }
+
+  "A minor bump on an empty version" should "proceed to next minor" in {
+    autoVersion(emptyInitialVersion, Bump.Minor) shouldEqual "0.1.0"
+  }
+
+  "A major bump on an empty version" should "proceed to next major" in {
+    autoVersion(emptyInitialVersion, Bump.Major) shouldEqual "1.0.0"
   }
 }

@@ -9,7 +9,7 @@ The `sbt-autoversion` plugin builds on the [sbt-release](https://github.com/sbt/
 Add the following line to your `project/plugins.sbt`:
 
 ```scala
-addSbtPlugin("me.pdalpra" % "sbt-autoversion" % "2.0.0")
+addSbtPlugin("com.github.sbt" % "sbt-autoversion" % "2.0.0")
 ```
 
 Since `sbt-autoversion` is an AutoPlugin, it will be automatically available to your projects,
@@ -40,6 +40,7 @@ Default patterns:
 * major: `\[?breaking\]?.*`, `\[?major\]?.*`
 * minor: `\[?feature\]?.*`, `\[?minor\]?.*`
 * bugfix: `\[?bugfix\]?.*`, `\[?fix\]?.*`
+* nano: `\[?nano\]?.*`
 
 Note: regular expressions are executed in the order shown above (major, minor, then bugfix) and the first match is returned.
 See `defaultBump` for behavior if no matches are found in the unreleased commit messages.
