@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.1.0")
 addSbtPlugin("com.github.sbt" % "sbt-git"     % "2.0.1")
 
-name          := "sbt-autoversion"
+name := "sbt-autoversion"
 
 scalacOptions := Seq(
   "-encoding",
@@ -25,4 +25,3 @@ scalacOptions := Seq(
 
 scriptedBufferLog := false
 scriptedLaunchOpts ++= Seq("-Xmx1024M", "-server", "-Dplugin.version=" + version.value)
-
