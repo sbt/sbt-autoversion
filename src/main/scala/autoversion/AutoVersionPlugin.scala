@@ -5,7 +5,7 @@ import autoversion.model.{Commit, Tag}
 import com.github.sbt.git.{GitPlugin, SbtGit}
 import com.vdurmont.semver4j.Semver
 import com.vdurmont.semver4j.Semver.SemverType
-import sbt.*
+import sbt.{AutoPlugin, Def, Logger, PluginTrigger, Plugins, Setting, file}
 import sbtrelease.ReleasePlugin
 import sbtrelease.ReleasePlugin.autoImport.releaseVersion
 import sbtrelease.Version.Bump

@@ -2,6 +2,7 @@ import ReleaseTransformations._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+enablePlugins(AutoVersionPlugin, ConventionalCommits)
 // Default sbt-release process, minus publication (for testing).
 releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
