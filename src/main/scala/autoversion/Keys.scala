@@ -18,4 +18,7 @@ object Keys {
   val defaultBump = settingKey[Option[Bump]](
     "Default version bump if sbt-autoversion is unable to suggest one based on commit messages."
   )
+  val conventionalPatternsAdditive = settingKey[Boolean](
+    "A flag for controlling whether Conventional Commits are applied additionally to the default patterns, or override them completely.  Defaults to true"
+  )
 }

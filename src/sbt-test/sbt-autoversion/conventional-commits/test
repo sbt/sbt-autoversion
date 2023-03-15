@@ -65,3 +65,54 @@ $ exec git commit --allow-empty -m 'feat(scope)!: foobar'
 > reload
 > release with-defaults
 $ exec grep -Fq '"2.0.1-SNAPSHOT"' version.sbt
+
+# Test that default patterns are still active (ConventionalCommit patterns additive by default)
+# 2.0.1-SNAPSHOT => 2.0.1 => 2.0.2-SNAPSHOT
+$ exec git commit --allow-empty -m 'bugfix: foobar'
+> reload
+> release with-defaults
+$ exec grep -Fq '"2.0.2-SNAPSHOT"' version.sbt
+
+# 2.0.2-SNAPSHOT => 2.1.0 => 2.1.1-SNAPSHOT
+$ exec git commit --allow-empty -m 'minor: foobar'
+> reload
+> release with-defaults
+$ exec grep -Fq '"2.1.1-SNAPSHOT"' version.sbt
+
+# 2.1.1-SNAPSHOT => 3.0.0 => 3.0.1-SNAPSHOT
+$ exec git commit --allow-empty -m 'major: foobar'
+> reload
+> release with-defaults
+$ exec grep -Fq '"3.0.1-SNAPSHOT"' version.sbt
+
+# Now disable additive ConventionalCommit patterns and test that default patterns do not apply
+# Default patch level bump pattern should fail
+$ exec git commit --allow-empty -m 'bugfix: foobar'
+> reload
+> set conventionalPatternsAdditive := false
+# disable default bump to assert patterns are _not_ matching
+> set defaultBump := None
+-> release with-defaults
+
+# Default minor level bump pattern should fail
+$ exec git commit --amend --allow-empty -m 'minor: foobar'
+> reload
+> set conventionalPatternsAdditive := false
+> set defaultBump := None
+-> release with-defaults
+
+# Default major level bump pattern should fail
+$ exec git commit --amend --allow-empty -m 'major: foobar'
+> reload
+> set conventionalPatternsAdditive := false
+> set defaultBump := None
+-> release with-defaults
+
+# But CC ones do
+# 3.0.1-SNAPSHOT => 3.1.0 => 3.1.1-SNAPSHOT
+$ exec git commit --allow-empty -m 'feat: foobar'
+> reload
+> set conventionalPatternsAdditive := false
+> set defaultBump := None
+> release with-defaults
+$ exec grep -Fq '"3.1.1-SNAPSHOT"' version.sbt

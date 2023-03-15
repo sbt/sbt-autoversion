@@ -66,6 +66,12 @@ The plugin must be manually enabled to take effect in `built.sbt`:
 enablePlugins(AutoVersionPlugin, ConventionalCommits)
 ```
 
+_Note_:  By default these patterns are applied _in addition_ to the default patterns, so that commit messages will match either the default or conventional commit patterns.  This default behavior can be disabled with this setting key, enabling _only_ Conventional commit patterns:
+
+```
+conventionalPatternsAdditive := false
+```
+
 # License
 
 This software is under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
