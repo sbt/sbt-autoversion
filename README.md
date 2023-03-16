@@ -52,6 +52,26 @@ If set to `None`, an error will be thrown, and the release will be aborted.
 
 Set to `Some(Bump.Bugfix)` by default.
 
+## Conventional Commits
+
+An additional opt-in plugin is also provided that overrides the default bump patterns with those modelled after the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) spec:
+
+* major: `.*BREAKING[-\s]CHANGE: .*`, `^(.*!: ).*`
+* minor: `^feat.*: .*`
+* bugfix: `^fix.*: .*`
+
+The plugin must be manually enabled to take effect in `built.sbt`:
+
+```
+enablePlugins(AutoVersionPlugin, ConventionalCommits)
+```
+
+_Note_:  By default these patterns are applied _in addition_ to the default patterns, so that commit messages will match either the default or conventional commit patterns.  This default behavior can be disabled with this setting key, enabling _only_ Conventional commit patterns:
+
+```
+conventionalPatternsAdditive := false
+```
+
 # License
 
 This software is under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
