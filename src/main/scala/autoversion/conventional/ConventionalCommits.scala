@@ -2,11 +2,10 @@ package autoversion.conventional
 
 import autoversion.AutoVersionPlugin
 import autoversion.Keys.{bugfixRegexes, conventionalPatternsAdditive, majorRegexes, minorRegexes}
-import sbt.{AutoPlugin, Setting, settingKey}
+import sbt.{settingKey, AutoPlugin, Setting}
 
-/**
- * An additional opt-in plugin that enables Conventional Commit style patterns for bumping the version
- */
+/** An additional opt-in plugin that enables Conventional Commit style patterns for bumping the version
+  */
 object ConventionalCommits extends AutoPlugin {
 
   override def requires = AutoVersionPlugin
