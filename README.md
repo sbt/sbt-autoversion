@@ -1,7 +1,5 @@
 # sbt-autoversion
 
-[![Travis branch](https://img.shields.io/travis/sbt/sbt-autoversion/master.svg)]()
-
 The `sbt-autoversion` plugin builds on the [sbt-release](https://github.com/sbt/sbt-release) and [sbt-git](https://github.com/sbt/sbt-git) plugins to automatically manage the version bump to apply (major, minor or patch version bumps), based on commits messages patterns.
 
 ## Adding to your project
