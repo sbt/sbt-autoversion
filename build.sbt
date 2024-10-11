@@ -10,7 +10,7 @@ libraryDependencies ++= Seq(
 // sbt plugin dependencies
 
 addSbtPlugin("com.github.sbt" % "sbt-release" % "1.4.0")
-addSbtPlugin("com.github.sbt" % "sbt-git"     % "2.0.1")
+addSbtPlugin("com.github.sbt" % "sbt-git"     % "2.1.0")
 
 name := "sbt-autoversion"
 
