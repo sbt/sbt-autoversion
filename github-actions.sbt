@@ -1,6 +1,6 @@
 inThisBuild(
   Seq(
-    githubWorkflowJavaVersions ++= Seq(JavaSpec.temurin("11"), JavaSpec.temurin("17")),
+    githubWorkflowJavaVersions ++= Seq(JavaSpec.temurin("11"), JavaSpec.temurin("17"), JavaSpec.temurin("21")),
     githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("test", "scripted"))),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches += RefPredicate.StartsWith(Ref.Tag("v")),

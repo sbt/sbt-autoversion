@@ -1,3 +1,7 @@
+[![Release](https://github.com/sbt/sbt-autoversion/actions/workflows/release.yml/badge.svg)](https://github.com/sbt/sbt-autoversion/actions/workflows/release.yml)
+[![CI](https://github.com/sbt/sbt-autoversion/actions/workflows/ci.yml/badge.svg)](https://github.com/sbt/sbt-autoversion/actions/workflows/ci.yml)
+[![Latest version](https://img.shields.io/github/tag/sbt/sbt-autoversion.svg)](https://github.com/sbt/sbt-autoversion/releases)
+
 # sbt-autoversion
 
 The `sbt-autoversion` plugin builds on the [sbt-release](https://github.com/sbt/sbt-release) and [sbt-git](https://github.com/sbt/sbt-git) plugins to automatically manage the version bump to apply (major, minor or patch version bumps), based on commits messages patterns.
@@ -70,6 +74,22 @@ _Note_:  By default these patterns are applied _in addition_ to the default patt
 conventionalPatternsAdditive := false
 ```
 
-# License
+## Maintenance
+
+### CI
+This project uses the [sbt-ci-release](https://github.com/sbt/sbt-ci-release) for generating GitHub actions in the `.github` actions directory, based on declared build configuration in `github-actions.sbt`. 
+
+When making changes to `github-actions.sbt` job declarations, the Github actions should be updated to reflect these changes by running the following task:
+
+```
+sbt githubWorkflowGenerate
+```
+
+### Releasing
+
+To release a new version of this plugin simply create a new tag against the intended release commit which should trigger the `release` Gitbhub action. 
+
+
+## License
 
 This software is under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html).
