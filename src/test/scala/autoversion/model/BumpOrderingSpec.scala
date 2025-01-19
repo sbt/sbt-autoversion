@@ -28,10 +28,9 @@ class BumpOrderingSpec extends AnyFlatSpec with Matchers with ScalaCheckDrivenPr
     }
   }
 
-  it should "prioritize a bugfix bump if there is no other kinds of bump" in {
+  it should "prioritize a bugfix bump if there is no other kinds of bump" in
     forAll(bumpListGen) { bumps =>
       if (bumps.forall(_ == Bump.Bugfix))
         bumps.max shouldBe Bump.Bugfix
     }
-  }
 }
