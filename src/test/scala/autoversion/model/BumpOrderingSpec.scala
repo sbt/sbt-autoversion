@@ -14,19 +14,17 @@ class BumpOrderingSpec extends AnyFlatSpec with Matchers with ScalaCheckDrivenPr
   private val bumpGen: Gen[Bump] = Gen.oneOf(Bump.Major, Bump.Minor, Bump.Bugfix)
   private val bumpListGen        = Gen.nonEmptyListOf(bumpGen)
 
-  it should "always prioritize a major bump" in {
+  it should "always prioritize a major bump" in
     forAll(bumpListGen) { bumps =>
       if (bumps.contains(Bump.Major))
         bumps.max shouldBe Bump.Major
     }
-  }
 
-  it should "prioritize a minor bump if there is no major bump" in {
+  it should "prioritize a minor bump if there is no major bump" in
     forAll(bumpListGen) { bumps =>
       if (!bumps.contains(Bump.Major) && bumps.contains(Bump.Minor))
         bumps.max shouldBe Bump.Minor
     }
-  }
 
   it should "prioritize a bugfix bump if there is no other kinds of bump" in
     forAll(bumpListGen) { bumps =>
