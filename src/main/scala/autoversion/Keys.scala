@@ -15,7 +15,7 @@ object Keys {
   val bugfixRegexes     = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a bugfix bump.")
   val minorRegexes      = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a minor bump.")
   val majorRegexes      = settingKey[Seq[Regex]]("Regex that commit messages must follow to use a major bump.")
-  val defaultBump = settingKey[Option[Bump]](
+  val defaultBump       = settingKey[Option[Bump]](
     "Default version bump if sbt-autoversion is unable to suggest one based on commit messages."
   )
   val conventionalPatternsAdditive = settingKey[Boolean](

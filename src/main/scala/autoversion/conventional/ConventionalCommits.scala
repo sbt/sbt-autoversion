@@ -13,7 +13,7 @@ object ConventionalCommits extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] =
     Seq(
       conventionalPatternsAdditive := true,
-      majorRegexes := {
+      majorRegexes                 := {
         val conventionalMajor = Seq(""".*BREAKING[-\s]CHANGE: .*""".r, "^(.*!: ).*".r)
         if (conventionalPatternsAdditive.value)
           conventionalMajor ++ majorRegexes.value

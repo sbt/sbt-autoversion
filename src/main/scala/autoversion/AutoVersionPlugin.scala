@@ -53,8 +53,8 @@ object AutoVersionPlugin extends AutoPlugin {
   }
 
   private lazy val suggestBump = Def.task {
-    val log     = sbt.Keys.streams.value.log
-    val default = defaultBump.value
+    val log            = sbt.Keys.streams.value.log
+    val default        = defaultBump.value
     val suggestedBumps = {
       val commits = unreleasedCommits.value
       commits.flatMap(_.suggestedBump(majorRegexes.value, minorRegexes.value, bugfixRegexes.value, nanoRegexes.value))
