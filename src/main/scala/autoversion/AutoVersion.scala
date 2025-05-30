@@ -17,7 +17,7 @@ object AutoVersion {
     Version(ver)
       .map {
         case v if v.qualifier.isDefined && bugfixSuggested && v.subversions.size <= 2 => v.withoutQualifier
-        case v if nanoSuggested && v.subversions.size < 3 =>
+        case v if nanoSuggested && v.subversions.size < 3                             =>
           val versionWithNano = v.copy(subversions = v.subversions ++ Seq.fill(3 - v.subversions.size)(0))
           versionWithNano.bump(bump).withoutQualifier
         case v if v.qualifier.isDefined && nanoSuggested => v.withoutQualifier
