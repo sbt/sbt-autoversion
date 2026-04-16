@@ -10,6 +10,8 @@ import sbtrelease.ReleasePlugin
 import sbtrelease.ReleasePlugin.autoImport.releaseVersion
 import sbtrelease.Version.Bump
 
+import sbtcompat.PluginCompat._
+
 import scala.util.Properties
 
 object AutoVersionPlugin extends AutoPlugin {
@@ -29,9 +31,9 @@ object AutoVersionPlugin extends AutoPlugin {
       bugfixRegexes     := List("""\[?(bug)?fix\]?.*""", """\[?patch\]?.*""").map(_.r),
       minorRegexes      := List("""\[?feature\]?.*""", """\[?minor\]?.*""").map(_.r),
       majorRegexes      := List("""\[?breaking\]?.*""", """\[?major\]?.*""").map(_.r),
-      latestTag         := findLatestTag.value,
-      unreleasedCommits := listUnreleasedCommits.value,
-      suggestedBump     := suggestBump.value,
+      latestTag         := Def.uncached(findLatestTag.value),
+      unreleasedCommits := Def.uncached(listUnreleasedCommits.value),
+      suggestedBump     := Def.uncached(suggestBump.value),
       releaseVersion    := AutoVersion.setReleaseVersion(suggestedBump.value),
       defaultBump       := Some(Bump.Bugfix)
     )
